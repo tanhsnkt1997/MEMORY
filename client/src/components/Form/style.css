@@ -1,0 +1,110 @@
+.inputFake {
+  height: 30px;
+  width: 80px;
+  background-color: rgba(0, 183, 255, 1);
+  line-height: 30px;
+  text-align: center;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 29px;
+}
+
+.imgItemPreview {
+  object-fit: contain;
+  width: 100px;
+  height: 100px;
+  border: 2px solid #f50057;
+  border-radius: 3px;
+  margin: 10px 5px 10px 0;
+  padding: 5px;
+}
+
+.emojiWrap {
+  width: 100%;
+  margin: 8px;
+  color: orange;
+}
+.emojiContainer {
+  position: relative;
+}
+.emojiContainer::before {
+  position: absolute;
+  content: "";
+  border-width: 13px;
+  border-color: transparent transparent rgba(0, 183, 255, 1) transparent;
+  border-style: solid;
+  top: -26px;
+  left: 11px;
+}
+
+.emoji {
+  font-size: 2rem !important;
+}
+
+.inputMsg {
+  text-align: justify;
+}
+
+.inputMsg:focus {
+  outline: none !important;
+}
+
+.input {
+  width: 100%;
+  margin: 11px 9px;
+  height: 50px;
+  padding: 0 10px;
+  font-size: 1.1rem;
+  color: rgba(0, 0, 0, 0.7);
+  border-radius: 3px;
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  /* border-color: red; */
+}
+.textarea {
+  width: 100%;
+  margin: 11px 9px;
+  height: 50px;
+  padding: 0 10px;
+  font-size: 1.1rem;
+  color: rgba(0, 0, 0, 0.7);
+  border-radius: 3px;
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  min-height: 200px;
+  resize: vertical;
+  padding: 10px;
+  /* border-color: red; */
+}
+
+.input:focus,
+.textarea:focus {
+  box-shadow: 0 0 0 2px #3f51b5;
+  /* outline: 2px ridge rgba(170, 50, 220, 0.6); */
+}
+
+.validationErr {
+  width: 100%;
+  padding: 1px 16px;
+  color: red;
+  font-size: 1rem;
+}
+
+.clear {
+  cursor: pointer;
+  background-color: #f50057;
+  position: initial;
+  color: #fff;
+  width: 100%;
+  padding: 12px 0;
+  font-size: 0.9375rem;
+  font-weight: normal;
+}
+.btnDissable {
+  background-color: #cccccc;
+  color: #666666;
+  margin: 6px;
+  cursor: not-allowed;
+  pointer-events: none;
+}
