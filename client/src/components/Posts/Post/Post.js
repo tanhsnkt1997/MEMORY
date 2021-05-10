@@ -7,6 +7,7 @@ import moment from "moment";
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../actions/posts";
 import { Card, CardActions, CardContent, Button, Typography } from "@material-ui/core";
+import defaultImg from "../../../images/defaultLoad.gif";
 
 import useStyles from "./styles";
 
@@ -66,7 +67,7 @@ const Post = ({ post, setCurrentId, getDetail }) => {
           alt={"img-memori"}
           className="card-img-top"
           data-src={post.selectedFile[0]}
-          src={"https://cdn.dribbble.com/users/310349/screenshots/7047519/media/c47bca5b43c2fd3c35f6e317c930bbf1.gif"}
+          src={defaultImg}
           style={{
             height: "100%",
             width: "100%",

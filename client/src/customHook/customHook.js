@@ -1,5 +1,6 @@
 import { useEffect, useCallback, useRef } from "react";
 import { useDispatch } from "react-redux";
+import defaultImg from "../images/defaultLoad.gif";
 
 // infinite scrolling with intersection observer
 export const useInfiniteScroll = (scrollRef) => {
@@ -54,9 +55,10 @@ export const useLazyLoading = (imgSelector, items) => {
           // Kiểm tra ảnh của chúng ta có trong vùng nhìn thấy không
           if (en.intersectionRatio > 0) {
             const currentImg = en.target;
-            const newImgSrc = currentImg.dataset.src;
+            const newImgSrc = currentImg.dataset?.src;
             // only swap out the image source if the new url exists
             if (!newImgSrc) {
+              currentImg.src = defaultImg;
               //gan default image neu url k ton tai
               // console.error("Image source is invalid");
             } else {
@@ -77,6 +79,7 @@ export const useLazyLoading = (imgSelector, items) => {
   useEffect(() => {
     imagesRef.current = document.querySelectorAll(imgSelector);
     if (imagesRef.current) {
+      console.log("vao day r");
       imagesRef.current.forEach((img) => imgObserver(img));
     }
   }, [imgSelector, items]); //trick

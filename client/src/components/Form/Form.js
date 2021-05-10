@@ -196,11 +196,11 @@ const Form = ({ currentId, setCurrentId, fetching }) => {
               </div>
             ))}
           </div>
-          <Button disabled={fetching} className={fetching ? classes.buttonDisable : classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>
+          <Button className={fetching ? classes.buttonDisable : classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>
             Submit
           </Button>
 
-          <button disabled={fetching} onClick={clear} className={`${fetching ? "btnDissable" : ""} clear btn btn-secondary`} type="reset">
+          <button onClick={clear} className={`${fetching ? "btnDissable" : ""} clear btn btn-secondary`} type="reset">
             Reset
           </button>
         </form>

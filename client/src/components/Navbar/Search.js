@@ -105,9 +105,10 @@ const Search = ({ user }) => {
           <div
             style={{
               backgroundColor: "#1976d2",
-              height: "100%",
-              padding: "8px 5px",
-              display: "inline-block",
+              padding: "0 5px",
+              justifyContent: "center",
+              alignItems: "center",
+              display: "flex",
             }}
           >
             <SearchIcon style={{ marginLeft: "5px", color: "#fff" }} />
