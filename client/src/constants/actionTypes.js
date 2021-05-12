@@ -13,5 +13,9 @@ export const FILTER_POST = "FILTER_POST";
 export const FETCHING = "FETCHING";
 export const FETCHING_FAILED = "FETCHING_FAILED";
 
+//auth
 export const AUTH = "AUTH";
 export const LOGOUT = "LOGOUT";
+
+//user
+export const UPDATE_FROFILE = "UPDATE_FROFILE";

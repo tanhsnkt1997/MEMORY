@@ -69,3 +69,6 @@ export const searchPost = (textSearch, page, limit, cancelToken) => API.get(`/po
 export const getListWithPagination = (page, limit, cancelToken) => API.get(`/posts/list?page=${page}&limit=${limit}`, { cancelToken });
 // export const filterPost = (sortBy, page, limit, keyword) => API.get(`/posts/filter?keyword=${keyword}&sortBy=${sortBy}&page=${page}&limit=${limit}`);
 export const filterPost = (sortBy, page, limit, keyword) => API.get(`/posts/filter`, { params: { keyword, sortBy, page, limit } });
+
+//Profile
+export const updateProfile = (id, profile) => API.patch(`/posts/user/profile/${id}`, profile);
