@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { TextField, Button, Typography, Paper } from "@material-ui/core";
+import React, { useState, useEffect } from "react";
+import { Button, Typography, Paper } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import CancelIcon from "@material-ui/icons/Cancel";
 import ImageSearchTwoToneIcon from "@material-ui/icons/ImageSearchTwoTone";
@@ -100,7 +100,6 @@ const Form = ({ currentId, setCurrentId, fetching }) => {
   };
 
   const changeFile = (e) => {
-    console.log("e.target.files", e.target.files);
     changeImgEdit(false);
     setPostData({ ...postData, selectedFile: e.target.files });
   };
@@ -183,7 +182,7 @@ const Form = ({ currentId, setCurrentId, fetching }) => {
           <div style={{ display: "flex", overflowX: "auto" }}>
             {Array.from(postData.selectedFile).map((e, index) => (
               <div key={index.toString()} style={{ position: "relative" }}>
-                <img src={currentId && isChangeImg ? e : URL.createObjectURL(e)} className="imgItemPreview" />
+                <img src={currentId && isChangeImg ? e : URL.createObjectURL(e)} className="imgItemPreview" alt="fileForm" />
                 <div
                   style={{ position: "absolute", top: "13px", right: "12px", width: "20px", cursor: "pointer", color: "red" }}
                   onClick={() => {

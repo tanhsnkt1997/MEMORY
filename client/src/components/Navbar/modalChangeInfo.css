@@ -18,14 +18,19 @@
 }
 
 .modalChangeinfo__avatar {
-  width: 60px;
-  height: 60px;
+  width: 160px;
+  height: 160px;
   border-radius: 50%;
   background-color: red;
   color: #fff;
   font-size: 1.3rem;
   text-align: center;
   line-height: 60px;
+  border: 5px solid rgba(0, 183, 255, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 4rem;
 }
 #file-avatar {
   display: none;
@@ -123,9 +128,11 @@
   position: initial;
   display: flex;
   margin: 10px auto;
+  padding: 12px;
   background-color: rgba(0, 183, 255, 1);
   color: #fff;
   cursor: pointer;
+  border-radius: px;
   transform: translateY(5px);
 }
 

@@ -86,7 +86,7 @@ export const creatPost = async (req, res) => {
     if (!req.files.length && !req.body.title && !req.body.tags && !req.body.message) {
       console.log("vo no body");
       // return res.status(500).send("Body cant empty");
-      var err = new Error('"Body cant empty');
+      let err = new Error('"Body cant empty');
       err.statusCode = 400;
       throw err;
     }
@@ -188,8 +188,8 @@ export const searchPost = async (req, res) => {
 };
 
 export const pagination = async (req, res) => {
-  var limit = +req.query.limit;
-  var page = +req.query.page;
+  let limit = +req.query.limit;
+  let page = +req.query.page;
   try {
     if (!limit && page) {
       return res.status(404).json({ message: "Can't not get list with query" });

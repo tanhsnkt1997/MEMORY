@@ -6,60 +6,40 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import Search from "./Search";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
-
+import { updateProfile } from "../../actions/user";
+import _ from "lodash";
+import { usePrevious } from "../../customHook/usePrevious";
 import Modal from "../../base/modalBase";
-
 import useStyles from "./styles";
 import "./modalChangeInfo.css";
 
+// document.querySelector('input[type="radio"]:checked')
+
 const Navbar = () => {
+  console.log("render lai navbar");
   const classes = useStyles();
+  const userAsync = JSON.parse(localStorage.getItem("profile"));
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile"))); //default getItem null
+  const jsDate = new Date(user.birthDay);
+  const initialState = { day: jsDate.getDate() || 1, dayInMonth: 0, month: jsDate.getMonth() || 1, year: jsDate.getFullYear() || 1990, file: "", fileShowAvatar: user?.avatar, name: user?.name, gender: user?.gender, phoneNumber: user?.phoneNumber };
+
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
 
-  const [birthDay, setBirthDay] = useState({
-    day: 1,
-    dayInMonth: 1,
-    month: 1,
-    year: 1990,
-  });
+  const [birthDay, setBirthDay] = useState(initialState);
+
+  console.log("birthDay", birthDay);
 
   const [show, setShow] = useState(false);
-  const [showBirthDay, setShowBirthDay] = useState({
-    day: false,
-    month: false,
-    year: false,
-  });
+  const [showBirthDay, setShowBirthDay] = useState({ day: false, month: false, year: false });
 
-  console.log("----------------->", showBirthDay.day);
-
+  const prevProfile = usePrevious(user);
   useEffect(() => {
-    //JWT......
-    // if (token) {
-    //   const decodedToken = decode(token);
-    //   if (decodedToken.exp * 1000 < new Date().getTime()) {
-
-    //     // logout();
-    //   }
-    // }
-    setUser(JSON.parse(localStorage.getItem("profile")));
-  }, [location.pathname]);
-
-  const logout = () => {
-    dispatch({ type: "LOGOUT" });
-    history.push("/");
-    setUser(null); //show btn login
-  };
-
-  function daysInMonth(month, year) {
-    return new Date(year, month, 0).getDate();
-  }
-
-  function leapYear(year) {
-    return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-  }
+    if (!_.isEqual(prevProfile, userAsync)) {
+      setUser(userAsync);
+    }
+  }, [userAsync, prevProfile]);
 
   useEffect(() => {
     const day = daysInMonth(birthDay.month, birthDay.year);
@@ -68,13 +48,21 @@ const Navbar = () => {
     }
   }, [birthDay.month, birthDay.year]);
 
+  const logout = () => {
+    dispatch({ type: "LOGOUT" });
+    history.push("/");
+  };
+
+  function daysInMonth(month, year) {
+    return new Date(year, month, 0).getDate();
+  }
+
   const handle = (targer) => {
     setBirthDay({ ...birthDay, dayInMonth: daysInMonth(birthDay.month, birthDay.year) });
     trickgerCloseBirthday(targer);
   };
 
   const trickgerCloseBirthday = (targer) => {
-    // setBirthDay({ ...birthDay, dayInMonth: daysInMonth(birthDay.month, birthDay.year) });
     if (targer === "day") {
       setShowBirthDay({ day: !showBirthDay.day, month: false, year: false });
     }
@@ -147,6 +135,40 @@ const Navbar = () => {
     return yearInView;
   };
 
+  const handleChangeFile = (e) => {
+    console.log("e.target.files[0]", e.target.files[0]);
+    let file = e.target.files[0];
+    let typeFiles = ["image/png", "image/jpg", "image/jpeg"];
+    if (typeFiles.indexOf(file.type) === -1) {
+      alert("Kiểu file không hỗ trợ !! Vui lòng thử lại.");
+      return;
+    }
+    if (file.size > 1048576) {
+      alert("Kích thước tối đa là 1MB !! Vui lòng thử lại.");
+      return;
+    }
+    //1 file
+    setBirthDay({ ...birthDay, file: e.target.files[0], fileShowAvatar: URL.createObjectURL(e.target.files[0]) });
+  };
+
+  const handleCloseModal = () => {
+    setBirthDay(initialState);
+    setShow(false);
+  };
+
+  const handleUploadProfile = (e) => {
+    const { year, month, day, file, name, phoneNumber, gender } = birthDay;
+    const birthDayToTimeStamp = new Date(year, month, day).getTime();
+    let ProfileFormData = new FormData();
+    ProfileFormData.append("image", file);
+    ProfileFormData.append("name", name);
+    ProfileFormData.append("phoneNumber", phoneNumber);
+    ProfileFormData.append("gender", gender);
+    ProfileFormData.append("birthDay", birthDayToTimeStamp);
+
+    dispatch(updateProfile(user._id, ProfileFormData)); //
+  };
+
   return (
     <>
       <AppBar className={classes.appBar} position="fixed" color="inherit">
@@ -163,7 +185,8 @@ const Navbar = () => {
           {user ? (
             <div className={classes.profile}>
               <Box display="flex" onClick={() => setShow(true)}>
-                <Avatar className={classes.purple} alt={user.name} src={user.imageUrl}>
+                {/* google avatar and account avatar */}
+                <Avatar className={classes.purple} alt={user.name} src={user.imageUrl ? user.imageUrl : user.avatar}>
                   {user.name.charAt(0)}
                 </Avatar>
                 <Typography className={classes.userName} variant="h6">
@@ -184,7 +207,7 @@ const Navbar = () => {
           )}
         </Toolbar>
       </AppBar>
-      <Modal title="Thông tin tài khoản" onClose={() => setShow(false)} show={show}>
+      <Modal title="Thông tin tài khoản" onClose={handleCloseModal} show={show}>
         <div
           class="modalChangeinfo__bodyContainer"
           onClick={() => {
@@ -192,11 +215,14 @@ const Navbar = () => {
           }}
         >
           <div class="modalChangeinfo__bodyLeftContainer">
-            <div className="modalChangeinfo__avatar">{user?.name.charAt(0)}</div>
+            <img className="modalChangeinfo__avatar" src={birthDay.fileShowAvatar} alt="avatar" />
+
+            {/* {birthDay.file ? <img className="modalChangeinfo__avatar" src={URL.createObjectURL(birthDay.file[0])} /> : <div className="modalChangeinfo__avatar">{user?.name.charAt(0)}</div>} */}
+
             <label className="btn-fake-avatar" for="file-avatar">
               Chọn ảnh
             </label>
-            <input id="file-avatar" type="file" />
+            <input accept="image/*" onChange={handleChangeFile} id="file-avatar" type="file" />
             <div className="modalChangeinfo__descriptionAvatar">Dụng lượng file tối đa 1 MB </div>
             <div className="modalChangeinfo__descriptionAvatar">Định dạng:.JPEG, .PNG</div>
           </div>
@@ -205,14 +231,14 @@ const Navbar = () => {
             <div className="modalChangeinfo__InputWithLabel">
               <label className="modalChangeinfo__lableInput">Tên</label>
               <div className="modalChangeinfo__InputWraper">
-                <input className="modalChangeinfo__Input" type="text" />
+                <input value={birthDay.name} onChange={(e) => setBirthDay({ ...birthDay, name: e.target.value })} className="modalChangeinfo__Input" type="text" />
               </div>
             </div>
 
             <div className="modalChangeinfo__InputWithLabel">
               <label className="modalChangeinfo__lableInput">Số điện thoại</label>
               <div className="modalChangeinfo__InputWraper">
-                <input className="modalChangeinfo__Input" type="text" />
+                <input value={birthDay.phoneNumber} onChange={(e) => setBirthDay({ ...birthDay, phoneNumber: e.target.value })} className="modalChangeinfo__Input" type="text" />
               </div>
             </div>
 
@@ -220,15 +246,15 @@ const Navbar = () => {
               <label className="modalChangeinfo__lableInput">Giới tính</label>
               <div className="modalChangeinfo__RadioWraper">
                 <div className="modalChangeinfo__RadioWraperWithLabel">
-                  <input name="gender" value="male" className="modalChangeinfo__BtnRadio" type="radio" />
+                  <input checked={birthDay.gender === "male"} onChange={(e) => setBirthDay({ ...birthDay, gender: e.target.value })} name="gender" value="male" className="modalChangeinfo__BtnRadio" type="radio" />
                   <label className="modalChangeinfo__RadioLabel">Nam</label>
                 </div>
                 <div className="modalChangeinfo__RadioWraperWithLabel">
-                  <input name="gender" value="female" className="modalChangeinfo__BtnRadio" type="radio" />
+                  <input checked={birthDay.gender === "female"} onChange={(e) => setBirthDay({ ...birthDay, gender: e.target.value })} name="gender" value="female" className="modalChangeinfo__BtnRadio" type="radio" />
                   <label className="modalChangeinfo__RadioLabel">Nữ</label>
                 </div>
                 <div className="modalChangeinfo__RadioWraperWithLabel">
-                  <input name="gender" value="others" className="modalChangeinfo__BtnRadio" type="radio" />
+                  <input checked={birthDay.gender === "others"} onChange={(e) => setBirthDay({ ...birthDay, gender: e.target.value })} name="gender" value="others" className="modalChangeinfo__BtnRadio" type="radio" />
                   <label className="modalChangeinfo__RadioLabel">Khác</label>
                 </div>
               </div>
@@ -256,10 +282,24 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-        <button className="modalChangeinfo__btnUpdate">Thay đổi</button>
+        <button onClick={handleUploadProfile} className="modalChangeinfo__btnUpdate">
+          Thay đổi
+        </button>
       </Modal>
     </>
   );
 };
 
-export default Navbar;
+export default React.memo(Navbar);
+
+// useEffect(() => {
+//   //JWT......
+//   // if (token) {
+//   //   const decodedToken = decode(token);
+//   //   if (decodedToken.exp * 1000 < new Date().getTime()) {
+
+//   //     // logout();
+//   //   }
+//   // }
+//   setUser(JSON.parse(localStorage.getItem("profile")));
+// }, [location.pathname]);

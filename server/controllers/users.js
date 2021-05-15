@@ -1,6 +1,9 @@
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import randToken from "rand-token";
+import uploadFile from "../utils/uploadAsync.js";
+import imgResizeAndUpload from "../utils/resizeImg.js";
+import mongoose from "mongoose";
 
 import User from "../models/user.js";
 
@@ -89,5 +92,41 @@ export const refreshToken = async (req, res) => {
   } else {
     console.log("error fresh token", error);
     res.status(403).send.json({ message: "Invalid request in fresh Token, fresh token is undefined" });
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  console.log("vao r");
+  try {
+    const { id: _id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+      let err = new Error("Can't find id to update");
+      err.statusCode = 400;
+      throw err;
+    }
+    await uploadFile.uploadAsyncOneFile(req, res);
+    console.log("nhan dc file", req.file);
+    if (!req.file && !req.body.name && !req.body.phoneNumber && !req.body.gender && !req.body.birthDay) {
+      console.log("vo no body");
+      // return res.status(500).send("Body cant empty");
+      let err = new Error('"Body cant empty');
+      err.statusCode = 400;
+      throw err;
+    }
+
+    //req.file is undefined if file sent from client is null
+    if (req.file) {
+      let arrImageUploaded = await imgResizeAndUpload([req.file]);
+      let updatedProfile = await User.findByIdAndUpdate(_id, { ...req.body, avatar: arrImageUploaded[0] }, { new: true, fields: { password: 0 } });
+      return res.json(updatedProfile);
+    } else {
+      let updatedProfile = await User.findByIdAndUpdate(_id, { ...req.body }, { new: true, fields: { password: 0 } });
+      return res.json(updatedProfile);
+    }
+  } catch (error) {
+    console.log("loi r", error.message);
+    return res.status(error.statusCode || 500).json({
+      message: error.message,
+    });
   }
 };

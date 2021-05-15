@@ -71,4 +71,4 @@ export const getListWithPagination = (page, limit, cancelToken) => API.get(`/pos
 export const filterPost = (sortBy, page, limit, keyword) => API.get(`/posts/filter`, { params: { keyword, sortBy, page, limit } });
 
 //Profile
-export const updateProfile = (id, profile) => API.patch(`/posts/user/profile/${id}`, profile);
+export const updateProfile = (id, profile) => API.patch(`/user/profile/${id}`, profile);

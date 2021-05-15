@@ -12,7 +12,7 @@ const uploadAsyncOneFile = (req, res, file) => {
         return reject({ statusCode: 500, message: error });
       }
       return resolve();
-    }).single("image");
+    });
   });
 };
 
