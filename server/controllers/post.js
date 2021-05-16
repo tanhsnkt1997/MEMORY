@@ -206,6 +206,9 @@ export const pagination = async (req, res) => {
 
 const filterBy = (sortBy, userId, keyword) => {
   if (!keyword) {
+    if (sortBy === "ofme") {
+      return { creator: userId };
+    }
     return {};
   } else {
     if (sortBy === "ofme") {
@@ -213,34 +216,29 @@ const filterBy = (sortBy, userId, keyword) => {
         $and: [{ creator: userId }, { $text: { $search: keyword } }],
       };
     } else {
+      console.log("vo 3");
       return {
         $text: { $search: keyword },
       };
     }
   }
 };
-//keyword = null && condition
-//keyword && condition
-//keyword && condition = null
 
 export const filter = async (req, res) => {
-  const keyword = req.query.keyword.trim();
-  const limit = +req.query.limit;
-  const page = +req.query.page;
-  const sortBy = req.query.sortBy;
-  const userId = req?.userId;
-
-  const tmpFilter = {
-    asc: { updatedAt: -1 },
-    dsc: { updatedAt: 1 },
-  };
   try {
+    const keyword = req.query.keyword.trim();
+    const limit = +req.query.limit;
+    const page = +req.query.page;
+    const sortBy = req.query.sortBy;
+    const userId = req?.userId;
+
+    const tmpFilter = {
+      asc: { updatedAt: -1 },
+      dsc: { updatedAt: 1 },
+    };
     if (!limit || page < 0 || isNaN(page) || !sortBy || !userId) {
       return res.status(404).json({ message: "Can't not get list with param" });
     }
-    // let dataSearch = await PostMessage.find({
-    //   $text: { $search: key.trim() },
-    // });
     let data = await PostMessage.find(filterBy(sortBy, userId, keyword))
       .sort(tmpFilter[sortBy] ? tmpFilter[sortBy] : { updatedAt: -1 })
       .skip(page * limit)

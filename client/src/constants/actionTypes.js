@@ -19,3 +19,5 @@ export const LOGOUT = "LOGOUT";
 
 //user
 export const UPDATE_FROFILE = "UPDATE_FROFILE";
+export const RESET_FROFILE = "RESET_FROFILE";
+export const GET_FROFILE = "GET_FROFILE";

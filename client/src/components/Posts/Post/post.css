@@ -1,0 +1,9 @@
+.img_avatarpost {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 5px;
+  border-width: 5px;
+  border-color: red;
+  border: 2px solid rgba(0, 183, 255, 1);
+}

@@ -12,6 +12,7 @@ import Modal from "../../base/modal";
 import axios from "axios";
 
 const Home = () => {
+  console.log("RENDER HOME");
   //// `cancelToken` chỉ định một cancel token được dùng để hủy request
   const cancelToken = useRef(null);
 

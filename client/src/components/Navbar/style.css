@@ -3,16 +3,17 @@
   border-top: 0;
   border-bottom: 0;
   border-right: 0;
-  border-left: 2px solid #f50057;
+  border-left: 2px solid rgb(25, 118, 210);
   color: rgb(25, 118, 210);
   height: 100%;
   font-size: 0.8rem;
   font-weight: bold;
-  padding: 12px 5px;
+  padding: 0 5px;
 }
 
 .searchContainer {
   position: relative;
+  height: 100%;
 }
 
 .listHistory {

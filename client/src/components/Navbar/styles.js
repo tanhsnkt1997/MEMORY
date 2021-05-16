@@ -11,6 +11,7 @@ export default makeStyles((theme) => ({
     padding: "10px 50px",
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
+    zIndex: 1,
   },
   heading: {
     color: "rgba(0,183,255, 1)",
@@ -50,17 +51,14 @@ export default makeStyles((theme) => ({
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    borderColor:"red",
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
+    transition: theme.transitions.create("width"),
+    borderColor: "red",
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
     },
   },
-  logout:{
+  logout: {
     marginLeft: "15px",
-  }
-  
+  },
 }));
-
-

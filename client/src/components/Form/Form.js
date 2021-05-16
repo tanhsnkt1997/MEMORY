@@ -28,7 +28,8 @@ const Form = ({ currentId, setCurrentId, fetching }) => {
   const [postData, setPostData] = useState({ title: "", message: "", tags: "", selectedFile: "" });
   const classes = useStyles();
   const dispatch = useDispatch();
-  const user = JSON.parse(localStorage.getItem("profile"));
+  // const user = JSON.parse(localStorage.getItem("profile"));
+  const user = useSelector((val) => val.user.profile);
 
   const [isChangeImg, setIsChangeImg] = useState(false);
   const [isShowEmoji, setShowEmoji] = useState(false);
@@ -66,9 +67,10 @@ const Form = ({ currentId, setCurrentId, fetching }) => {
     postFormmData.append("title", title);
     postFormmData.append("tags", tags);
     postFormmData.append("message", message);
+    postFormmData.append("name", user?.name);
+    postFormmData.append("avatar", user.avatar);
 
     if (currentId) {
-      postFormmData.append("name", user?.name);
       dispatch(updatePost(currentId, postFormmData));
       document.querySelector(".clear").click();
     } else {

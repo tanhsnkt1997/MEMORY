@@ -10,6 +10,7 @@ import { Card, CardActions, CardContent, Button, Typography } from "@material-ui
 import defaultImg from "../../../images/defaultLoad.gif";
 
 import useStyles from "./styles";
+import "./post.css";
 
 const Post = ({ post, setCurrentId, getDetail }) => {
   console.log("render Post Con");
@@ -78,16 +79,21 @@ const Post = ({ post, setCurrentId, getDetail }) => {
       </div>
 
       <div className={classes.overlay}>
-        <Typography
-          variant="h6"
-          style={{
-            fontWeight: "bold",
-            color: "rgba(0,183,255, 1)",
-            textShadow: "1px 1px #ff0000",
-          }}
-        >
-          {post.name}
-        </Typography>
+        <div style={{ display: "flex" }}>
+          {post.avatar && <img alt="post_avatar" src={post.avatar} className="img_avatarpost"></img>}
+
+          <Typography
+            variant="h6"
+            style={{
+              fontWeight: "bold",
+              color: "rgba(0,183,255, 1)",
+              textShadow: "1px 1px #ff0000",
+            }}
+          >
+            {post.name}
+          </Typography>
+        </div>
+
         <Typography
           variant="body2"
           style={{
@@ -99,6 +105,7 @@ const Post = ({ post, setCurrentId, getDetail }) => {
           {moment(post.createdAt).fromNow()}
         </Typography>
       </div>
+
       {(user?.googleId === post?.creator || user?._id === post?.creator) && (
         <div className={classes.overlay2}>
           <Button size="small" onClick={handeChangePost}>

@@ -1,4 +1,6 @@
 import axios from "axios";
+import { RESET_FROFILE, LOGOUT } from "../constants/actionTypes";
+import { useDispatch, useSelector } from "react-redux";
 
 const API = axios.create({ baseURL: "http://localhost:5000" });
 //chu y
@@ -30,7 +32,8 @@ API.interceptors.response.use(
     // Prevent infinite loops
     if (error.response.status === 403 && error.config.url === "/user/refreshToken") {
       window.location.href = "/auth/";
-      clearToken();
+      useDispatch({ type: LOGOUT });
+      useDispatch({ type: RESET_FROFILE });
       return Promise.reject(error);
     }
     if (error.response.data.message === "Error token" && error.response.status === 401 && error.response.statusText === "Unauthorized") {
@@ -48,7 +51,8 @@ API.interceptors.response.use(
         });
       } else {
         console.log("Refresh token is expired");
-        clearToken();
+        useDispatch({ type: LOGOUT });
+        useDispatch({ type: RESET_FROFILE });
         window.location.href = "/auth/";
       }
     }

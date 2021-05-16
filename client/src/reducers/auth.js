@@ -7,7 +7,7 @@ const authReducer = (state = { authData: null }, action) => {
       localStorage.setItem("profile", JSON.stringify({ ...action?.data?.result }));
       localStorage.setItem("token", JSON.stringify(action?.data?.token));
       localStorage.setItem("freshToken", JSON.stringify(action?.data?.refreshToken));
-      return { ...state, authData: action?.data };
+      return { ...state, authData: action?.data, isSignIn: true };
     case LOGOUT:
       localStorage.clear();
       return { ...state, authData: null };

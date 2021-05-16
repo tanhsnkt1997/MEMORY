@@ -98,10 +98,11 @@ const Search = ({ user }) => {
         alignItems: "center",
         border: "1px solid  #e0e0e0",
         borderRadius: "5px",
+        height: "50px",
       }}
     >
       <div className="searchContainer">
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", height: "100%" }}>
           <div
             style={{
               backgroundColor: "#1976d2",
@@ -109,13 +110,13 @@ const Search = ({ user }) => {
               justifyContent: "center",
               alignItems: "center",
               display: "flex",
+              height: "100%",
             }}
           >
             <SearchIcon style={{ marginLeft: "5px", color: "#fff" }} />
           </div>
 
           <input
-            className="input"
             name="input"
             placeholder="Search..."
             style={{
