@@ -1,0 +1,82 @@
+.inputCustom__Container {
+  position: relative;
+  width: 100%;
+}
+/*  12px 40px 12px 12px */
+.inputCustom__type {
+  width: 100%;
+  height: 55px;
+  display: inline-block;
+  padding: 12px;
+  outline: none;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.26);
+}
+
+/* dissable icon eye password */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+.inputCustom__placehoder {
+  position: absolute;
+  left: 12px;
+  display: inline-block;
+  bottom: 50%;
+  transform: translateY(50%);
+  color: #7575a1;
+  transition: all 0.25s ease;
+  pointer-events: none;
+  font-weight: 350;
+}
+
+.inputCustom__type:focus {
+  /* box-shadow: 0 0 0 2px #3f51b5; */
+  border-color: #3f51b5;
+  border-width: 2.2px;
+  /* border: none; */
+}
+
+.inputCustom__type:focus + .inputCustom__placehoder {
+  font-size: 0.8rem !important;
+  padding: 0 5px;
+  color: #3f51b5;
+  left: 6px;
+}
+
+@keyframes background-color {
+  from {
+    background-color: red;
+  }
+  to {
+    background-color: blue;
+  }
+}
+
+.showIconPassword {
+  position: absolute;
+  right: 12px;
+  display: inline-block;
+  bottom: 50%;
+  transform: translateY(50%);
+  color: #7575a1;
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.showIconPassword:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.auth-Validation-Error {
+  color: orangered;
+  margin: 5px 0;
+}
+
+@keyframes onAutoFillStart {
+}
+
+@keyframes onAutoFillCancel {
+}

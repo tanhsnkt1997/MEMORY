@@ -15,7 +15,9 @@ export const FETCHING_FAILED = "FETCHING_FAILED";
 
 //auth
 export const AUTH = "AUTH";
+export const AUTH_FAILED = "AUTH_FAILED";
 export const LOGOUT = "LOGOUT";
+export const RESET_MESSAGE_AUTH = "RESET_MESSAGE_AUTH";
 
 //user
 export const UPDATE_FROFILE = "UPDATE_FROFILE";

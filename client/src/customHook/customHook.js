@@ -46,7 +46,7 @@ export const useInfiniteScroll = (scrollRef) => {
 };
 
 // lazy load images with intersection observer
-export const useLazyLoading = (imgSelector, items) => {
+export const useLazyLoading = (imgSelector, items, length) => {
   const imgObserver = useCallback((node) => {
     const intObs = new IntersectionObserver(
       (entries) => {
@@ -55,8 +55,10 @@ export const useLazyLoading = (imgSelector, items) => {
           // Kiểm tra ảnh của chúng ta có trong vùng nhìn thấy không
           if (en.intersectionRatio > 0) {
             const currentImg = en.target;
+            //tmp img if change post
             const newImgSrc = currentImg.dataset?.src;
             // only swap out the image source if the new url exists
+            currentImg.src = defaultImg;
             if (!newImgSrc) {
               currentImg.src = defaultImg;
               //gan default image neu url k ton tai
@@ -79,8 +81,7 @@ export const useLazyLoading = (imgSelector, items) => {
   useEffect(() => {
     imagesRef.current = document.querySelectorAll(imgSelector);
     if (imagesRef.current) {
-      console.log("vao day r");
       imagesRef.current.forEach((img) => imgObserver(img));
     }
-  }, [imgSelector, items]); //trick
+  }, [imgObserver, imgSelector, items, length]); //trick
 };

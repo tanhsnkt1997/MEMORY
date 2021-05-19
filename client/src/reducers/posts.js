@@ -18,8 +18,6 @@ export default (state = initialState, action) => {
     case LIKE:
       return { ...state, fetching: false, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)) }; //action.payload is the updated post
     case CREATE:
-      console.log("vao creat");
-      console.log("nhan dc post", action.payload);
       return { ...state, fetching: false, posts: [action.payload, ...state.posts] };
     case SEARCH:
       //check neu k con data de push vao mang

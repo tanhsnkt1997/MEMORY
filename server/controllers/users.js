@@ -34,6 +34,7 @@ export const signin = async (req, res) => {
     //check refresh token
     return res.status(200).json({ result: existingUser, token, refreshToken });
   } catch (error) {
+    console.log("signin error", error);
     return res.status(500).json({ message: "Something went wrong" });
   }
 };
@@ -43,7 +44,7 @@ export const signup = async (req, res) => {
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(409).json({ message: "User already exists" });
     }
     if (password !== confirmPassword) {
       return res.status(400).json({ message: "Password don't match" });
@@ -96,7 +97,6 @@ export const refreshToken = async (req, res) => {
 };
 
 export const updateProfile = async (req, res) => {
-  console.log("vao r");
   try {
     const { id: _id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(_id)) {
@@ -105,9 +105,7 @@ export const updateProfile = async (req, res) => {
       throw err;
     }
     await uploadFile.uploadAsyncOneFile(req, res);
-    console.log("nhan dc file", req.file);
     if (!req.file && !req.body.name && !req.body.phoneNumber && !req.body.gender && !req.body.birthDay) {
-      console.log("vo no body");
       // return res.status(500).send("Body cant empty");
       let err = new Error('"Body cant empty');
       err.statusCode = 400;
@@ -124,7 +122,7 @@ export const updateProfile = async (req, res) => {
       return res.json(updatedProfile);
     }
   } catch (error) {
-    console.log("loi r", error.message);
+    console.log("error in update profile", error.message);
     return res.status(error.statusCode || 500).json({
       message: error.message,
     });

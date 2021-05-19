@@ -24,8 +24,9 @@ const validationSchema = Yup.object().shape({
 
 const Form = ({ currentId, setCurrentId, fetching }) => {
   console.log("render Form");
+  const initValue = { title: "", message: "", tags: "", selectedFile: "" };
   const post = useSelector((state) => (currentId ? state.posts.posts.find((p) => p._id === currentId) : null)); // reducer/index
-  const [postData, setPostData] = useState({ title: "", message: "", tags: "", selectedFile: "" });
+  const [postData, setPostData] = useState(initValue);
   const classes = useStyles();
   const dispatch = useDispatch();
   // const user = JSON.parse(localStorage.getItem("profile"));
@@ -46,14 +47,11 @@ const Form = ({ currentId, setCurrentId, fetching }) => {
   //if have data post change
   useEffect(() => {
     if (post) {
-      document.querySelector("#title").value = post.title;
-      document.querySelector("#message").value = post.message;
-      document.querySelector("#tags").value = post.tags;
-      // setElement.current.disabled = false;
+      reset();
       setPostData(post);
       setIsChangeImg(true);
     }
-  }, [post]);
+  }, [post, reset]);
 
   const onSubmit = (values) => {
     const { title, message, tags } = values;
@@ -98,7 +96,7 @@ const Form = ({ currentId, setCurrentId, fetching }) => {
 
   const clear = () => {
     setCurrentId(null);
-    setPostData({ selectedFile: "" });
+    setPostData(initValue);
   };
 
   const changeFile = (e) => {
@@ -147,10 +145,10 @@ const Form = ({ currentId, setCurrentId, fetching }) => {
           <Typography variant="h6">{currentId ? "Editing" : "Creating"} a Memory</Typography>
 
           <p className={"validationErr"}>{errors.title?.message}</p>
-          <input id="title" placeholder={"Title"} className={"input"} {...register("title")} />
+          <input defaultValue={postData.title} id="title" placeholder={"Title"} className={"input"} {...register("title")} />
 
           <p className={"validationErr"}>{errors.message?.message}</p>
-          <textarea id="message" placeholder={"Message"} className={"textarea"} {...register("message")} />
+          <textarea defaultValue={postData.message} id="message" placeholder={"Message"} className={"textarea"} {...register("message")} />
 
           <div className="emojiWrap">
             <EmojiEmotionsIcon onClick={setShowEmojiIcon} className="emoji" />
@@ -163,8 +161,7 @@ const Form = ({ currentId, setCurrentId, fetching }) => {
           )}
 
           <p className={"validationErr"}>{errors.tags?.message}</p>
-          <input id="tags" placeholder={"Tags"} className={"input"} {...register("tags")} />
-          {/* <TextField {...register("tags")} id="tags" title="tags" name="tags" variant="outlined" label="Tags (comma separated)" fullWidth value={postData.tags} onFocus={setShowEmojiIcon} /> */}
+          <input defaultValue={postData.tags} id="tags" placeholder={"Tags"} className={"input"} {...register("tags")} />
 
           <div className={classes.fileInput}>
             <input type="file" onChange={changeFile} multiple style={{ display: "none" }} />
@@ -211,10 +208,3 @@ const Form = ({ currentId, setCurrentId, fetching }) => {
 };
 
 export default React.memo(Form);
-
-// if (pos.posStart !== pos.posEnd) {
-//   const strSlice = postData.message.slice(pos.posStart, pos.posEnd);
-//   const stringReplaceStartToEnd = postData.message.replace(strSlice, e.native);
-//   setPostData({ ...postData, message: stringReplaceStartToEnd });
-//   return;
-// }

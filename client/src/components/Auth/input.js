@@ -9,7 +9,7 @@ const input = ({ name, handleChange, label, half, autoFocus, type, handleShowPas
       <TextField
         name={name}
         onChange={handleChange}
-        variant='outlined'
+        variant="outlined"
         required
         fullWidth
         label={label}
@@ -19,7 +19,7 @@ const input = ({ name, handleChange, label, half, autoFocus, type, handleShowPas
           name === "password"
             ? {
                 endAdornment: (
-                  <InputAdornment position='end'>
+                  <InputAdornment position="end">
                     <IconButton onClick={handleShowPassword}>{type === "password" ? <Visibility /> : <VisibilityOff />}</IconButton>
                   </InputAdornment>
                 ),

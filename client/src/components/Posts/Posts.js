@@ -7,7 +7,6 @@ import Post from "./Post/Post";
 import useStyles from "./styles";
 
 const Posts = ({ setCurrentId, posts, getDetail }) => {
-  console.log("render POST CHA");
   const classes = useStyles();
   const { search } = useLocation();
   const { keyword } = queryString.parse(search);

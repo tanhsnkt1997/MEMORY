@@ -7,6 +7,7 @@ import { searchPost, getListWithPagination, filterPost } from "../../actions/pos
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import { useLazyLoading, useInfiniteScroll } from "../../customHook/customHook";
+import useEffectWhen from "../../customHook/usePrevious";
 import useStyles from "./styles";
 import Modal from "../../base/modal";
 import axios from "axios";
@@ -32,7 +33,8 @@ const Home = () => {
   // .sort((a,b)=> +new Date(b.createdAt) - +new Date(a.createdAt))
 
   //infinity
-  useLazyLoading(".card-img-top", posts);
+
+  useLazyLoading(".card-img-top", JSON.stringify(...posts.map((item) => item.selectedFile)), posts.length);
   useInfiniteScroll(element);
 
   useEffect(() => {

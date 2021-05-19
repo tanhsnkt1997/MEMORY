@@ -7,7 +7,7 @@ import Search from "./Search";
 import useStyles from "./styles";
 import "./modalChangeInfo.css";
 import ModalChangeInfo from "./ModalChangeInfo";
-import { RESET_FROFILE, GET_FROFILE, LOGOUT } from "../../constants/actionTypes";
+import { RESET_FROFILE, GET_FROFILE, LOGOUT, RESET_MESSAGE_AUTH } from "../../constants/actionTypes";
 import jwt_decode from "jwt-decode";
 
 // document.querySelector('input[type="radio"]:checked')
@@ -44,6 +44,7 @@ const Navbar = () => {
   useEffect(() => {
     if (!user && userAsync) {
       dispatch({ type: GET_FROFILE });
+      dispatch({ type: RESET_MESSAGE_AUTH });
     }
   }, [dispatch, user, userAsync]);
 
