@@ -80,7 +80,7 @@ button {
 .messageContainer {
   position: relative;
   width: 100%;
-  height: calc(100% - 3rem);
+  height: 350px;
   line-height: 1.5rem;
 }
 

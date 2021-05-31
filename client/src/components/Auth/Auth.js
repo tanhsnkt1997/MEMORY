@@ -55,15 +55,6 @@ const validationSchema = Yup.object().shape({
   }),
 });
 
-const a = validationSchema
-  .validate(
-    {},
-    {
-      context: { exist: false },
-    }
-  )
-  .catch((err) => console.log(err));
-
 const Auth = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -164,14 +155,9 @@ const Auth = () => {
                     <InputCustom register={register} name="lastName" placeholder="Last Name *" />
                   </div>
                 </div>
-
-                {/* <Input name="firstName" label="First Name" variant="outlined" fullWidth handleChange={handleChange} autoFocus half />
-
-                <Input name="lastName" label="Last Name" variant="outlined" fullWidth handleChange={handleChange} half /> */}
               </>
             )}
-            {/* <Input name="email" label="Email Address" handleChange={handleChange} type="email" />
-            <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} /> */}
+
             <div style={{ width: "100%", margin: "10px" }}>
               <p className={"auth-Validation-Error"}>{errors.email?.message}</p>
               <InputCustom register={register} name="email" placeholder="Email Address *" />

@@ -61,16 +61,16 @@ const Search = ({ user }) => {
 
   const haha = (e) => {
     if (document.querySelector(".listHistory").style.display === "block") {
-      if (!e.target.classList.contains("input")) {
+      if (!e.target.classList.contains("input__navbar__search")) {
         setShowHistory(false);
         document.body.removeEventListener("click", haha);
       }
     }
   };
 
-  document.querySelector('input[name="input"]')?.addEventListener("click", (e) => {
-    setShowHistory(true);
-  });
+  // document.querySelector('input[name="input"]')?.addEventListener("click", (e) => {
+  //   setShowHistory(true);
+  // });
 
   useEffect(() => {
     return function cleanup() {
@@ -81,7 +81,6 @@ const Search = ({ user }) => {
   // console.log( document.querySelector('input[name="input"]'))
 
   const selectHistory = (textSearch) => {
-    console.log("vao dc", textSearch);
     setTextSearch(textSearch);
     params.append("keyword", textSearch);
     history.push({ pathname: "/posts/search", search: params.toString() });
@@ -118,6 +117,7 @@ const Search = ({ user }) => {
 
           <input
             name="input"
+            className="input__navbar__search"
             placeholder="Search..."
             style={{
               borderColor: "transparent",

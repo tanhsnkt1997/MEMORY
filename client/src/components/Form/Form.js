@@ -11,9 +11,16 @@ import { useForm, ErrorMessage } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+import useDelayUnmount from "../../customHook/useDelayUnmount";
 import useStyles from "./styles";
 import { createPost, updatePost } from "../../actions/posts";
 import "./style.css";
+
+const mountedStyle = { animation: "inAnimation 250ms ease-in" };
+const unmountedStyle = {
+  animation: "outAnimation 270ms ease-out",
+  animationFillMode: "forwards",
+};
 
 // form validation rules
 const validationSchema = Yup.object().shape({
@@ -33,7 +40,8 @@ const Form = ({ currentId, setCurrentId, fetching }) => {
   const user = useSelector((val) => val.user.profile);
 
   const [isChangeImg, setIsChangeImg] = useState(false);
-  const [isShowEmoji, setShowEmoji] = useState(false);
+  const [isMounted, setIsMounted] = useState(false); // isMounted show emoji
+  const showDiv = useDelayUnmount(isMounted, 250);
 
   const {
     register,
@@ -135,7 +143,7 @@ const Form = ({ currentId, setCurrentId, fetching }) => {
       // setShowEmoji(false);
       return false;
     }
-    setShowEmoji((isShow) => !isShow);
+    setIsMounted(!isMounted);
   };
 
   return (
@@ -153,9 +161,8 @@ const Form = ({ currentId, setCurrentId, fetching }) => {
           <div className="emojiWrap">
             <EmojiEmotionsIcon onClick={setShowEmojiIcon} className="emoji" />
           </div>
-
-          {isShowEmoji && (
-            <div className="emojiContainer">
+          {showDiv && (
+            <div className={`emojiContainer"}`} style={isMounted ? mountedStyle : unmountedStyle}>
               <Picker emoji="point_up" onSelect={addEmoji} showPreview={false} set="google" showSkinTones={false} style={{ width: "100%" }} />
             </div>
           )}

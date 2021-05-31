@@ -6,11 +6,16 @@ import Form from "../../components/Form/Form";
 import { searchPost, getListWithPagination, filterPost } from "../../actions/posts";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
+import PublishIcon from "@material-ui/icons/Publish";
+import useStyles from "./styles";
+import Modal from "../../base/modal.js";
+import ModalBase from "../../base/modalBase";
+import axios from "axios";
+
 import { useLazyLoading, useInfiniteScroll } from "../../customHook/customHook";
 import useEffectWhen from "../../customHook/usePrevious";
-import useStyles from "./styles";
-import Modal from "../../base/modal";
-import axios from "axios";
+
+import "./home.css";
 
 const Home = () => {
   console.log("RENDER HOME");
@@ -66,6 +71,7 @@ const Home = () => {
 
   useEffect(() => {
     window.addEventListener("scroll", toggleVisibility);
+
     return () => {
       if (cancelToken.current) {
         console.log("cancelToken.current.cancel()", cancelToken.current);
@@ -91,31 +97,22 @@ const Home = () => {
     <Grow in>
       <Container>
         <Grid className={classes.mainContainer} container justify="space-between" alignItems="stretch" spacing={3}>
+          {/* <Grid item xs={12} sm={7}> */}
           <Grid item xs={12} sm={7}>
-            <div>
-              <Posts setCurrentId={setCurrentId} posts={posts} getDetail={getDetail} />
-            </div>
+            <Posts setCurrentId={setCurrentId} posts={posts} getDetail={getDetail} />
           </Grid>
           <Grid item xs={12} sm={4}>
             <Form currentId={currentId} setCurrentId={setCurrentId} fetching={fetching} />
+
             {isVisible ? (
               <div
-                style={{
-                  backgroundImage: `url('http://assets.stickpng.com/images/580b57fcd9996e24bc43c454.png')`,
-                  position: "fixed",
-                  bottom: 0,
-                  right: 0,
-                  marginRight: "50px",
-                  marginBottom: "50px",
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "contain",
-                  width: "30px",
-                  height: "30px",
-                }}
+                className="iconToTop"
                 onClick={() => {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
-              />
+              >
+                <PublishIcon style={{ fontSize: "2rem", color: "#3f51b5" }} />
+              </div>
             ) : null}
           </Grid>
         </Grid>
@@ -127,7 +124,7 @@ const Home = () => {
           <div
             id="page-bottom-boundary"
             style={{
-              border: "5px solid red",
+              border: "5px solid transparent",
             }}
             ref={setElement}
           />
@@ -138,7 +135,7 @@ const Home = () => {
             style={{
               width: "500px",
               height: "100px",
-              display: fetching && posts.length > 0 && more ? "block" : "none",
+              display: fetching && posts.length >= 10 && more ? "block" : "none", // > =10 because first load 10 item if item < 10 don't load more
             }}
           >
             <div
@@ -154,7 +151,10 @@ const Home = () => {
           </div>
         </div>
 
-        <Modal isShowing={isShowModal} hide={hideModal} detailModal={detailModal} />
+        {/* <Modal isShowing={isShowModal} hide={hideModal} detailModal={detailModal} /> */}
+        <ModalBase title="Chi tiết" onClose={hideModal} show={isShowModal} style={{ minWidth: "200px", maxWidth: "600px" }}>
+          <Modal detailModal={detailModal} />
+        </ModalBase>
       </Container>
     </Grow>
   );

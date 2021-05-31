@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useMemo, useRef, useEffect, forwardRef } from "react";
 import { Grid, CircularProgress } from "@material-ui/core";
 import queryString from "query-string";
 import { useLocation } from "react-router-dom";
+
+import "./post.css";
 
 import Post from "./Post/Post";
 import useStyles from "./styles";
 
 const Posts = ({ setCurrentId, posts, getDetail }) => {
+  console.log("list post", posts);
   const classes = useStyles();
   const { search } = useLocation();
   const { keyword } = queryString.parse(search);
@@ -37,7 +40,7 @@ const Posts = ({ setCurrentId, posts, getDetail }) => {
   ) : (
     <Grid className={classes.mainContainer} container alignItems="stretch" spacing={3}>
       {posts.map((post, index) => (
-        <Grid key={index.toString()} item xs={12} sm={6}>
+        <Grid key={index.toString()} item xs={12} sm={6} className="post__item__container">
           <Post post={post} setCurrentId={setCurrentId} getDetail={getDetail} />
         </Grid>
       ))}

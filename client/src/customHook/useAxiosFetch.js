@@ -14,7 +14,6 @@ const useAxiosFetch = (url) => {
         cancelToken: source.token,
       })
       .then((a) => {
-        console.log("here");
         setData(a);
         setLoading(false);
       })

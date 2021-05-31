@@ -41,9 +41,9 @@ export const deletePost = (id) => async (dispatch) => {
   }
 };
 
-export const likePost = (id) => async (dispatch) => {
+export const likePost = (info) => async (dispatch) => {
   try {
-    const { data } = await api.likePost(id);
+    const { data } = await api.likePost(info);
     dispatch({ type: LIKE, payload: data });
   } catch (error) {
     console.log(error);
@@ -55,6 +55,7 @@ export const searchPost = (textSearch, page, limit, cancelToken) => async (dispa
     const { data } = await api.searchPost(textSearch, page, limit, cancelToken);
     dispatch({ type: SEARCH, payload: data });
   } catch (error) {
+    dispatch({ type: FETCHING_FAILED, payload: error });
     console.log(error);
   }
 };
@@ -65,6 +66,7 @@ export const getListWithPagination = (page, limit, cancelToken) => async (dispat
     dispatch({ type: FETCHING_POST, posts: data });
     // console.log("data", data);
   } catch (error) {
+    dispatch({ type: FETCHING_FAILED, payload: error });
     console.log("error get list with pagination", error);
   }
 };
@@ -74,6 +76,7 @@ export const filterPost = (keyword, sortBy, page, limit) => async (dispatch) => 
     const { data } = await api.filterPost(sortBy, page, limit, keyword);
     dispatch({ type: FILTER_POST, posts: data });
   } catch (error) {
+    dispatch({ type: FETCHING_FAILED, payload: error });
     console.log(error);
   }
 };

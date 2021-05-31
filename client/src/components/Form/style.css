@@ -27,7 +27,58 @@
 }
 .emojiContainer {
   position: relative;
+  opacity: 0;
+  display: none;
 }
+
+@keyframes inAnimation {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+    /* max-height: 0px; */
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    /* max-height: 600px; */
+  }
+}
+
+@keyframes outAnimation {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    /* max-height: 600px; */
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+    /* max-height: 0px; */
+  }
+}
+
+.emojiContainer.grow {
+  /* transform: scale(0.1); */
+  /* -ms-transform: scale(0.1);
+  -webkit-transform: scale(0.1); */
+  opacity: 1;
+  display: block;
+  -webkit-animation: transformer 0.3s ease-in 0s 1;
+  -o-animation: transformer 0.3s ease-in 0s 1;
+  -moz-animation: transformer 0.3s ease-in 0s 1;
+  animation: transformer 0.3s ease-in 0s 1;
+  /* transform: scale(1); */
+}
+
+.emojiContainer.outAnimation {
+  -webkit-animation: outAnimation 0.3s ease-out;
+  -o-animation: outAnimation 0.3s ease-out;
+  -moz-animation: outAnimation 0.3s ease-out;
+  animation: outAnimation 0.3s ease-out;
+  animation: outAnimation 0.3s ease-out;
+  animation-fill-mode: "forwards";
+}
+
 .emojiContainer::before {
   position: absolute;
   content: "";
@@ -36,6 +87,54 @@
   border-style: solid;
   top: -26px;
   left: 11px;
+}
+
+/*  */
+/* @keyframes outAnimation {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
+    visibility: hidden;
+  }
+} */
+/*  */
+@-o-keyframes transformer {
+  from {
+    -o-transform: scale(0);
+  }
+  to {
+    -o-transform: scale(1);
+  }
+}
+
+@-moz-keyframes transformer {
+  from {
+    -moz-transform: scale(0);
+  }
+  to {
+    -moz-transform: scale(1);
+  }
+}
+
+@-webkit-keyframes transformer {
+  from {
+    -webkit-transform: scale(0);
+  }
+  to {
+    -webkit-transform: scale(1);
+  }
+}
+@keyframes transformer {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 
 .emoji {

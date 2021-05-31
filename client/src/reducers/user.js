@@ -15,12 +15,29 @@ const authReducer = (state = initState, action) => {
       const jsDate = new Date(profileAsync.birthDay);
       //profileAsync.imageUrl is google account
       // profileAsync.imageUrl is normal account
-      return { fetching: false, profile: { day: jsDate.getDate(), month: jsDate.getMonth(), year: jsDate.getFullYear(), avatar: profileAsync.imageUrl ? profileAsync.imageUrl : profileAsync.avatar, name: profileAsync.name, gender: profileAsync.gender, phoneNumber: profileAsync.phoneNumber } };
+      return {
+        fetching: false,
+        profile: {
+          _id: profileAsync._id,
+          day: jsDate.getDate(),
+          month: jsDate.getMonth(),
+          year: jsDate.getFullYear(),
+          avatar: profileAsync.imageUrl ? profileAsync.imageUrl : profileAsync.avatar,
+          name: profileAsync.name,
+          gender: profileAsync.gender,
+          phoneNumber: profileAsync.phoneNumber,
+          email: profileAsync.email,
+        },
+      };
     case UPDATE_FROFILE:
-      const { name, phoneNumber, gender, birthDay, avatar } = action.payload;
+      const { _id, name, phoneNumber, gender, birthDay, avatar, email } = action.payload;
       localStorage.setItem("profile", JSON.stringify({ ...action.payload }));
       // console.log("_______nhna dc data", action.payload);
-      return { ...state, fetching: false, profile: { day: coverTimeStampToDMY(birthDay).day, month: coverTimeStampToDMY(birthDay).month, year: coverTimeStampToDMY(birthDay).year, avatar, gender, phoneNumber, name } };
+      return {
+        ...state,
+        fetching: false,
+        profile: { day: coverTimeStampToDMY(birthDay).day, month: coverTimeStampToDMY(birthDay).month, year: coverTimeStampToDMY(birthDay).year, avatar, gender, phoneNumber, name, email, _id },
+      };
     case RESET_FROFILE:
       return { ...state, profile: null };
     default:

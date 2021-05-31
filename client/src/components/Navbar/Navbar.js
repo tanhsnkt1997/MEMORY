@@ -8,16 +8,20 @@ import useStyles from "./styles";
 import "./modalChangeInfo.css";
 import ModalChangeInfo from "./ModalChangeInfo";
 import { RESET_FROFILE, GET_FROFILE, LOGOUT, RESET_MESSAGE_AUTH } from "../../constants/actionTypes";
+import Notification from "./notication/Notification";
 import jwt_decode from "jwt-decode";
+
+import useSocket from "../../customHook/useSocket";
 
 // document.querySelector('input[type="radio"]:checked')
 
 const Navbar = () => {
-  console.log("render lai navbar");
   const childRef = useRef();
   const classes = useStyles();
   const user = useSelector((val) => val.user.profile);
   const userAsync = JSON.parse(localStorage.getItem("profile"));
+  // useSocket(user?._id);
+
   // const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile"))); //default getItem null
 
   const dispatch = useDispatch();
@@ -67,6 +71,7 @@ const Navbar = () => {
         <Search user={user} />
 
         <Toolbar className={classes.toolbar}>
+          <Notification userId={user?._id} />
           {user ? (
             <div className={classes.profile}>
               <Box style={{ cursor: "pointer" }} display="flex" onClick={() => childRef.current.isOpenModal()}>

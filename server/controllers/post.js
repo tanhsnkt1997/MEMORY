@@ -5,6 +5,7 @@ import googleApi from "../server/googleDrive.js";
 import fs from "fs";
 import sharp from "sharp";
 import upload from "../utils/uploadAsync.js";
+import Notification from "../models/notification.js";
 
 sharp.cache({ files: 0 });
 
@@ -84,7 +85,6 @@ export const creatPost = async (req, res) => {
     await upload.uploadAsynAnyFile(req, res);
 
     if (!req.files.length && !req.body.title && !req.body.tags && !req.body.message) {
-      console.log("vo no body");
       // return res.status(500).send("Body cant empty");
       let err = new Error('"Body cant empty');
       err.statusCode = 400;
@@ -92,7 +92,6 @@ export const creatPost = async (req, res) => {
     }
 
     let arrImageUploaded = await imgResizeAndUpload(req.files);
-
     //chu y
     const newPost = new PostMessage({
       ...req.body,
@@ -142,7 +141,10 @@ export const deletePost = async (req, res) => {
 };
 
 export const likePost = async (req, res) => {
+  //Emit event
+  const eventEmitter = req.app.get("eventEmitter"); //set in server.js
   const { id } = req.params;
+
   //
   if (!req.userId) {
     return res.json({ message: "Unauthenticated" });
@@ -151,17 +153,25 @@ export const likePost = async (req, res) => {
     return res.status(404).send("No post with that id");
   }
   const post = await PostMessage.findById(id);
-  const index = post.likes.findIndex((id) => id === String(req.userId)); //chu y String
+  const index = post.reactions.findIndex((info) => info.userId === String(req.userId)); //chu y String
+  console.log("indexxx", index);
+
   if (index === -1) {
     //Like a post
-    post.likes.push(req.userId);
+    post.reactions.push({ typeLike: req.body.type, userId: String(req.userId) });
   } else {
-    post.likes = post.likes.filter((id) => id !== String(req.userId));
-    //dislike a post
+    if (req.body.type === "unlike") {
+      console.log("vo dung r");
+      //unLike a post
+      post.reactions = post.reactions.filter((info) => info.userId !== String(req.userId));
+    } else {
+      post.reactions[index] = { typeLike: req.body.type, userId: String(req.userId) };
+    }
   }
-  const updatedPost = await PostMessage.findByIdAndUpdate(id, post, {
-    new: true,
-  });
+  const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
+  const notification = await Notification.create({ notification: `${req.userEmail} đã bài viết của bạn`, senderId: req.userId, receiverId: post.creator });
+  console.log("vao ========================== kho hieu");
+  eventEmitter.emit("likeUpdated", notification);
   res.json(updatedPost);
 };
 

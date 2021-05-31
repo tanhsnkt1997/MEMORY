@@ -12,7 +12,17 @@ const ModalChangeInfo = forwardRef((props, ref) => {
   const userAsync = JSON.parse(localStorage.getItem("profile"));
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile"))); //default getItem null
   const jsDate = new Date(user.birthDay);
-  const initialState = { day: jsDate.getDate() || 1, dayInMonth: 0, month: jsDate.getMonth() || 1, year: jsDate.getFullYear() || 1990, file: "", fileShowAvatar: user?.avatar, name: user?.name, gender: user?.gender, phoneNumber: user?.phoneNumber };
+  const initialState = {
+    day: jsDate.getDate() || 1,
+    dayInMonth: 0,
+    month: jsDate.getMonth() || 1,
+    year: jsDate.getFullYear() || 1990,
+    file: "",
+    fileShowAvatar: user?.avatar,
+    name: user?.name,
+    gender: user?.gender,
+    phoneNumber: user?.phoneNumber,
+  };
 
   const dispatch = useDispatch();
   const [birthDay, setBirthDay] = useState(initialState);
@@ -124,7 +134,6 @@ const ModalChangeInfo = forwardRef((props, ref) => {
   };
 
   const handleChangeFile = (e) => {
-    console.log("e.target.files[0]", e.target.files[0]);
     let file = e.target.files[0];
     let typeFiles = ["image/png", "image/jpg", "image/jpeg"];
     if (typeFiles.indexOf(file.type) === -1) {
@@ -197,15 +206,36 @@ const ModalChangeInfo = forwardRef((props, ref) => {
             <label className="modalChangeinfo__lableInput">Giới tính</label>
             <div className="modalChangeinfo__RadioWraper">
               <div className="modalChangeinfo__RadioWraperWithLabel">
-                <input checked={birthDay.gender === "male"} onChange={(e) => setBirthDay({ ...birthDay, gender: e.target.value })} name="gender" value="male" className="modalChangeinfo__BtnRadio" type="radio" />
+                <input
+                  checked={birthDay.gender === "male"}
+                  onChange={(e) => setBirthDay({ ...birthDay, gender: e.target.value })}
+                  name="gender"
+                  value="male"
+                  className="modalChangeinfo__BtnRadio"
+                  type="radio"
+                />
                 <label className="modalChangeinfo__RadioLabel">Nam</label>
               </div>
               <div className="modalChangeinfo__RadioWraperWithLabel">
-                <input checked={birthDay.gender === "female"} onChange={(e) => setBirthDay({ ...birthDay, gender: e.target.value })} name="gender" value="female" className="modalChangeinfo__BtnRadio" type="radio" />
+                <input
+                  checked={birthDay.gender === "female"}
+                  onChange={(e) => setBirthDay({ ...birthDay, gender: e.target.value })}
+                  name="gender"
+                  value="female"
+                  className="modalChangeinfo__BtnRadio"
+                  type="radio"
+                />
                 <label className="modalChangeinfo__RadioLabel">Nữ</label>
               </div>
               <div className="modalChangeinfo__RadioWraperWithLabel">
-                <input checked={birthDay.gender === "others"} onChange={(e) => setBirthDay({ ...birthDay, gender: e.target.value })} name="gender" value="others" className="modalChangeinfo__BtnRadio" type="radio" />
+                <input
+                  checked={birthDay.gender === "others"}
+                  onChange={(e) => setBirthDay({ ...birthDay, gender: e.target.value })}
+                  name="gender"
+                  value="others"
+                  className="modalChangeinfo__BtnRadio"
+                  type="radio"
+                />
                 <label className="modalChangeinfo__RadioLabel">Khác</label>
               </div>
             </div>

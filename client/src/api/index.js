@@ -65,7 +65,7 @@ export const fetchPosts = () => API.get("/posts");
 export const createPost = (newPost) => API.post("/posts", newPost);
 export const updatePost = (id, updatedPost) => API.patch(`/posts/${id}`, updatedPost);
 export const deletePost = (id) => API.delete(`/posts/${id}`);
-export const likePost = (id) => API.patch(`/posts/${id}/likePost`);
+export const likePost = (info) => API.patch(`/posts/${info.post_id}/likePost`, info);
 
 export const signIn = (formData) => API.post("/user/signin", formData);
 export const signUp = (formData) => API.post("/user/signup", formData);
@@ -76,3 +76,6 @@ export const filterPost = (sortBy, page, limit, keyword) => API.get(`/posts/filt
 
 //Profile
 export const updateProfile = (id, profile) => API.patch(`/user/profile/${id}`, profile);
+
+//Notification
+export const getNotification = (userId) => API.get(`/notifications/list/${userId}`);

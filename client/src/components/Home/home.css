@@ -1,0 +1,11 @@
+.iconToTop {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin-right: 50px;
+  margin-bottom: 50px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  transition: all 3s;
+}

@@ -30,7 +30,7 @@
   min-height: 100px;
   max-height: 750px;
   background-color: #fff;
-  transition: all 0.3s ease-in-out;
+  transition: all 4s ease-in-out;
   position: relative;
   overflow-y: auto;
   /* transform: translateY(-200px); */

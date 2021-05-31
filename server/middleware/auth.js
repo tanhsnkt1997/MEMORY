@@ -11,12 +11,16 @@ const auth = async (req, res, next) => {
     let decodedData;
     if (token && isCustomAuth) {
       decodedData = jwt.verify(token, "test");
-      console.log("decode data trong middleware", decodedData)
+      console.log("decode data trong middleware", decodedData);
       req.userId = decodedData?.id;
+      req.userEmail = decodedData?.email;
     } else {
       //google
       decodedData = jwt.decode(token);
+      console.log("decode google", decodedData);
       req.userId = decodedData?.sub; //sub: id phân biệt ng dùng google
+      req.userEmail = decodedData?.email;
+      req.userName = decodedData?.name;
     }
     next();
   } catch (error) {

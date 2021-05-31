@@ -6,8 +6,8 @@ const router = express.Router();
 
 router.get("/", getPosts);
 router.post("/", auth, creatPost); //cần có id
-router.patch("/:id", auth, updatePost); //check quyền có đc cập nhật hay không
-router.delete("/:id", auth, deletePost); //check quyền có đc xóa hay không
+router.patch("/:id", auth, updatePost); //auth check quyền có đc cập nhật hay không
+router.delete("/:id", auth, deletePost);
 router.patch("/:id/likePost", auth, likePost); //không có quyền thích 2 hay 3 lần
 router.get("/search", searchPost);
 router.get("/list", pagination);

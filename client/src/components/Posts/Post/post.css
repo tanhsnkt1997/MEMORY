@@ -1,3 +1,21 @@
+.post__item__container {
+  cursor: pointer;
+  /* border-radius: 10px; */
+  -webkit-transition: 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
+  -moz-transition: 0.3s ease-in-out, -moz-transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.post__item__container:hover {
+  transform: scale(1.08);
+}
+.post__item_card_content {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.1));
+}
+.post__item_card_btn_status:hover {
+  border: 10px solid red;
+}
+
 .img_avatarpost {
   width: 40px;
   height: 40px;
@@ -6,4 +24,12 @@
   border-width: 5px;
   border-color: red;
   border: 2px solid rgba(0, 183, 255, 1);
+}
+
+.titlePosts {
+  font-family: "Pacifico", cursive !important;
+  font-weight: 200;
+  color: #fff;
+  font-size: 2.5rem !important;
+  line-height: 1.5;
 }

@@ -21,13 +21,13 @@ export default (state = initialState, action) => {
       return { ...state, fetching: false, posts: [action.payload, ...state.posts] };
     case SEARCH:
       //check neu k con data de push vao mang
-      return !action.payload.dataSearch.length ? { ...state, more: false } : { ...state, posts: [...state.posts, ...action.payload.dataSearch], fetching: false };
+      return !action.payload.dataSearch.length ? { ...state, more: false, fetching: false } : { ...state, posts: [...state.posts, ...action.payload.dataSearch], fetching: false };
     case STACK_POST:
       return;
     case FETCHING_POST:
-      return !action.posts.list.length ? { ...state, more: false } : { ...state, posts: [...state.posts, ...action.posts.list], fetching: false };
+      return !action.posts.list.length ? { ...state, more: false, fetching: false } : { ...state, posts: [...state.posts, ...action.posts.list], fetching: false };
     case FILTER_POST:
-      return !action.posts.list.length ? { ...state, more: false } : { ...state, posts: [...state.posts, ...action.posts.list], fetching: false };
+      return !action.posts.list.length ? { ...state, more: false, fetching: false } : { ...state, posts: [...state.posts, ...action.posts.list], fetching: false };
     case ADVANCE_PAGE:
       return { ...state, page: state.page + 1, fetching: true };
     case RESET_POST:

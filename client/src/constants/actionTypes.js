@@ -23,3 +23,6 @@ export const RESET_MESSAGE_AUTH = "RESET_MESSAGE_AUTH";
 export const UPDATE_FROFILE = "UPDATE_FROFILE";
 export const RESET_FROFILE = "RESET_FROFILE";
 export const GET_FROFILE = "GET_FROFILE";
+
+//notif
+export const GET_NOTIFICATION = "GET_NOTIFICATION";
